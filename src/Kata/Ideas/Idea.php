@@ -17,4 +17,9 @@ class Idea {
         $this->date = $date;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
 }

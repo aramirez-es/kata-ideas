@@ -8,8 +8,7 @@ class Ideas
 
     public function add($idea)
     {
-        $this->ideas[] = $idea;
-        return (count($this->ideas) - 1);
+        $this->ideas[$idea->getId()] = $idea;
     }
 
     public function get($idea_id)
