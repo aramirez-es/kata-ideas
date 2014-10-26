@@ -6,14 +6,14 @@ class Ideas
 {
     private $ideas = [];
 
-    public function add($user, $idea_text, $idea_date)
+    public function add($idea)
     {
-        $this->ideas[] = [$user, $idea_text, $idea_date];
+        $this->ideas[] = $idea;
         return (count($this->ideas) - 1);
     }
 
     public function get($idea_id)
     {
-        return $this->ideas[$idea_id];
+        return isset($this->ideas[$idea_id]) ? $this->ideas[$idea_id] : null;
     }
 }
