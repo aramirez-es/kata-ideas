@@ -9,14 +9,14 @@ class Idea {
     private $id;
     private $text;
     private $owner;
-    private $date;
+    private $created_at;
 
-    function __construct(IdeaId $id, $text, UserEmail $owner, $date)
+    function __construct(IdeaId $id, $text, UserEmail $owner)
     {
         $this->id = $id;
         $this->text = $text;
         $this->owner = $owner;
-        $this->date = $date;
+        $this->created_at = time();
     }
 
     public function getId()

@@ -24,7 +24,7 @@ class ServiceSpec extends ObjectBehavior
         $idea_id = new IdeaId(231);
         $user_id = new UserEmail("any@user.com");
 
-        $idea = new Idea($idea_id, "idea text", $user_id, time());
+        $idea = new Idea($idea_id, "idea text", $user_id);
 
         $this->suggest($idea);
         $this->get($idea_id)->shouldReturn($idea);
@@ -40,7 +40,7 @@ class ServiceSpec extends ObjectBehavior
         $idea_id = new IdeaId(uniqid());
         $user_id = new UserEmail("any@user.com");
 
-        $idea = new Idea($idea_id, "any text", $user_id, time());
+        $idea = new Idea($idea_id, "any text", $user_id);
 
         $this->suggest($idea);
         $this->vote($idea_id, "any@user.com");
@@ -52,7 +52,7 @@ class ServiceSpec extends ObjectBehavior
         $idea_id = new IdeaId(uniqid());
         $user_id = new UserEmail("any@user.com");
 
-        $idea = new Idea($idea_id, "any text", $user_id, time());
+        $idea = new Idea($idea_id, "any text", $user_id);
 
         $this->suggest($idea);
         $this->countVotesFor($idea_id)->shouldReturn(0);
