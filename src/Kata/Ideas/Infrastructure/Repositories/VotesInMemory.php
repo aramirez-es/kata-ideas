@@ -2,9 +2,10 @@
 
 namespace Kata\Ideas\Infrastructure\Repositories;
 
+use Kata\Ideas\Core\Repositories\Votes as VotesRepository;
 use Kata\Ideas\Core\Values\IdeaId;
 
-class VotesInMemory
+class VotesInMemory implements VotesRepository
 {
     private $votes = [];
 
@@ -13,7 +14,7 @@ class VotesInMemory
         $this->votes[$this->indexFor($idea_id)][] = $user;
     }
 
-    public function countVotesFor(IdeaId $idea_id)
+    public function countFor(IdeaId $idea_id)
     {
         if (!isset($this->votes[$this->indexFor($idea_id)])) {
             return 0;

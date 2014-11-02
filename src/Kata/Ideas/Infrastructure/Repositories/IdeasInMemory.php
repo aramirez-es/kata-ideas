@@ -2,10 +2,11 @@
 
 namespace Kata\Ideas\Infrastructure\Repositories;
 
+use Kata\Ideas\Core\Repositories\Ideas as IdeasRepository;
 use Kata\Ideas\Core\Entities\Idea;
 use Kata\Ideas\Core\Values\IdeaId;
 
-class IdeasInMemory
+class IdeasInMemory implements IdeasRepository
 {
     private $ideas = [];
 
@@ -14,7 +15,7 @@ class IdeasInMemory
         $this->ideas[$this->indexFor($idea->getId())] = $idea;
     }
 
-    public function get(IdeaId $idea_id)
+    public function find(IdeaId $idea_id)
     {
         return $this->ideaExists($idea_id)
             ? $this->getIdea($idea_id)

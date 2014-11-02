@@ -4,16 +4,25 @@ namespace spec\Kata\Ideas\Core;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+
+use Kata\Ideas\Infrastructure\Repositories\IdeasInMemory;
+use Kata\Ideas\Infrastructure\Repositories\VotesInMemory;
+
 use Kata\Ideas\Core\Entities\Idea;
 use Kata\Ideas\Core\Values\IdeaId;
 
 class ServiceSpec extends ObjectBehavior
 {
-    function it_should_add_a_new_idea()
+    function let()
+    {
+        $this->beConstructedWith(new IdeasInMemory(), new VotesInMemory());
+    }
+
+    function it_should_suggest_a_new_idea()
     {
         $idea_id = new IdeaId(231);
         $idea = new Idea($idea_id, "idea text", "user@domain.com", time());
-        $this->add($idea);
+        $this->suggest($idea);
         $this->get($idea_id)->shouldReturn($idea);
     }
 
@@ -26,7 +35,7 @@ class ServiceSpec extends ObjectBehavior
     {
         $idea_id = new IdeaId(uniqid());
         $idea = new Idea($idea_id, "any text", "any@user.com", time());
-        $this->add($idea);
+        $this->suggest($idea);
         $this->vote($idea_id, "any@user.com");
         $this->countVotesFor($idea_id)->shouldReturn(1);
     }
@@ -35,7 +44,7 @@ class ServiceSpec extends ObjectBehavior
     {
         $idea_id = new IdeaId(uniqid());
         $idea = new Idea($idea_id, "any text", "any@user.com", time());
-        $this->add($idea);
+        $this->suggest($idea);
         $this->countVotesFor($idea_id)->shouldReturn(0);
     }
 
