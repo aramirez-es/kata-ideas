@@ -2,6 +2,7 @@
 
 namespace spec\Kata\Ideas\Core;
 
+use Kata\Ideas\Core\Values\UserEmail;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -21,7 +22,10 @@ class ServiceSpec extends ObjectBehavior
     function it_should_suggest_a_new_idea()
     {
         $idea_id = new IdeaId(231);
-        $idea = new Idea($idea_id, "idea text", "user@domain.com", time());
+        $user_id = new UserEmail("any@user.com");
+
+        $idea = new Idea($idea_id, "idea text", $user_id, time());
+
         $this->suggest($idea);
         $this->get($idea_id)->shouldReturn($idea);
     }
@@ -34,7 +38,10 @@ class ServiceSpec extends ObjectBehavior
     function it_should_be_able_to_vote_ideas()
     {
         $idea_id = new IdeaId(uniqid());
-        $idea = new Idea($idea_id, "any text", "any@user.com", time());
+        $user_id = new UserEmail("any@user.com");
+
+        $idea = new Idea($idea_id, "any text", $user_id, time());
+
         $this->suggest($idea);
         $this->vote($idea_id, "any@user.com");
         $this->countVotesFor($idea_id)->shouldReturn(1);
@@ -43,7 +50,10 @@ class ServiceSpec extends ObjectBehavior
     function it_should_return_zero_when_idea_did_not_get_any_vote()
     {
         $idea_id = new IdeaId(uniqid());
-        $idea = new Idea($idea_id, "any text", "any@user.com", time());
+        $user_id = new UserEmail("any@user.com");
+
+        $idea = new Idea($idea_id, "any text", $user_id, time());
+
         $this->suggest($idea);
         $this->countVotesFor($idea_id)->shouldReturn(0);
     }

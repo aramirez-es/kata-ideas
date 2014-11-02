@@ -2,8 +2,8 @@
 
 namespace Kata\Ideas\Core\Values;
 
-
-class IdeaId {
+class IdeaId
+{
     private $id;
 
     function __construct($id)
@@ -20,6 +20,4 @@ class IdeaId {
     {
         return (string) $this->id;
     }
-
-
 }
