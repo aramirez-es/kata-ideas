@@ -16,11 +16,7 @@ class ServiceSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(
-            new IdeasInMemory(),
-            new VotesInMemory(),
-            new UserEmail("logged@user.com")
-        );
+        $this->beConstructedWith(new IdeasInMemory(), new VotesInMemory());
     }
 
     function it_should_suggest_a_new_idea()
@@ -47,7 +43,7 @@ class ServiceSpec extends ObjectBehavior
         $idea = new Idea($idea_id, "any text", $user_id);
 
         $this->suggest($idea);
-        $this->vote($idea_id, $user_id);
+        $this->vote($idea_id, new UserEmail("loggedin@user.com"));
         $this->countVotesFor($idea_id)->shouldReturn(1);
     }
 
@@ -95,7 +91,7 @@ class ServiceSpec extends ObjectBehavior
         $ideas_repo->add($idea);
         $votes_repo->add($idea_id, $user_id);
 
-        $this->beConstructedWith($ideas_repo, $votes_repo, new UserEmail("logged@user.com"));
+        $this->beConstructedWith($ideas_repo, $votes_repo);
 
         $this->shouldThrow('\DomainException')->duringVote($idea_id, $user_id);
     }

@@ -12,13 +12,11 @@ class Service
 {
     private $ideas_repository;
     private $votes_repository;
-    private $logged_in_user;
 
-    function __construct(Ideas $ideas_repository, Votes $votes_repository, UserEmail $logged_user)
+    function __construct(Ideas $ideas_repository, Votes $votes_repository)
     {
         $this->ideas_repository = $ideas_repository;
         $this->votes_repository = $votes_repository;
-        $this->logged_in_user = $logged_user;
     }
 
     public function suggest(Idea $idea)
@@ -34,7 +32,7 @@ class Service
     public function vote(IdeaId $idea_id, UserEmail $user)
     {
         $this->guardIdeaExists($idea_id);
-        $this->guardEmployeesVotingTheirIdeas($idea_id);
+        $this->guardEmployeesVotingTheirIdeas($idea_id, $user);
         $this->guardEmployeesVotingTwiceTheSameIdea($idea_id, $user);
 
         $this->votes_repository->add($idea_id, $user);
@@ -54,17 +52,13 @@ class Service
         }
     }
 
-    private function guardEmployeesVotingTheirIdeas(IdeaId $idea_id)
+    private function guardEmployeesVotingTheirIdeas(IdeaId $idea_id, UserEmail $user_id)
     {
-        if ($this->ideas_repository->find($idea_id)->isOwner($this->logged_in_user)) {
+        if ($this->ideas_repository->find($idea_id)->isOwner($user_id)) {
             throw new \DomainException("Employees can't vote their own ideas.");
         }
     }
 
-    /**
-     * @param IdeaId $idea_id
-     * @param UserEmail $user
-     */
     private function guardEmployeesVotingTwiceTheSameIdea(IdeaId $idea_id, UserEmail $user)
     {
         if (in_array($user, $this->votes_repository->getFor($idea_id))) {
