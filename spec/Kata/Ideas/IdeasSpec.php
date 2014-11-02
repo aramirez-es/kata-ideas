@@ -21,4 +21,13 @@ class IdeasSpec extends ObjectBehavior
     {
         $this->get(new IdeaId(999))->shouldReturn(null);
     }
+
+    function it_should_be_able_to_vote_ideas()
+    {
+        $idea_id = new IdeaId(uniqid());
+        $idea = new Idea($idea_id, "any text", "any@user.com", time());
+        $this->add($idea);
+        $this->vote($idea_id, "any@user.com");
+        $this->countVotesFor($idea_id)->shouldReturn(1);
+    }
 }
