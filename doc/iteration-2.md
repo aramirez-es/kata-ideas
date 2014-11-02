@@ -7,3 +7,10 @@ La forma de almacenamiento no es más que otro array clave-valor, indexado por I
 - Añado un par de testcases más para reforzar la "spec": ideas que no han sido votadas deben devolver cero. Cuando tratas de obtener número de votos de una idea inexistente, devuelve un errror.
 
 - Aplico algún refactoring necesario tanto en Ideas como en el test.
+
+- En este momento creo que Ideas ya contiene más responsabilidades de las que debería, repasando:
+-- Actúa como servicio para sugerir y obtener ideas.
+-- Actúa como servicio para votar ideas.
+-- Actúa como repositorio de ideas.
+-- Actúa como repositorio de votos.
+Así que voy a transformar "Ideas" en un servicio, extrayendo la responsabilidad de repositorio a otra clase.

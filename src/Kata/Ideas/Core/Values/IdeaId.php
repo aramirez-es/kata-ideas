@@ -1,6 +1,6 @@
 <?php
 
-namespace Kata\Ideas;
+namespace Kata\Ideas\Core\Values;
 
 
 class IdeaId {

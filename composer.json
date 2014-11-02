@@ -7,8 +7,8 @@
         "phpspec/phpspec": "~2.0"
     },
     "autoload": {
-        "psr-0": {
-            "": "src"
+        "psr-4": {
+            "Kata\\Ideas\\": "src/Kata/Ideas"
         }
     },
     "authors": [
