@@ -17,7 +17,7 @@ class VotesInMemory implements VotesRepository
         $this->votes_by_user[$this->indexFor($user)][] = $idea_id;
     }
 
-    public function getFor(IdeaId $idea_id)
+    public function findBy(IdeaId $idea_id)
     {
         if (!isset($this->votes[$this->indexFor($idea_id)])) {
             return [];
@@ -25,12 +25,12 @@ class VotesInMemory implements VotesRepository
         return $this->votes[$this->indexFor($idea_id)];
     }
 
-    public function countFor(IdeaId $idea_id)
+    public function countBy(IdeaId $idea_id)
     {
-        return count($this->getFor($idea_id));
+        return count($this->findBy($idea_id));
     }
 
-    public function getForUser(UserEmail $user)
+    public function findByUser(UserEmail $user)
     {
         if (!isset($this->votes_by_user[$this->indexFor($user)])) {
             return 0;
@@ -38,9 +38,9 @@ class VotesInMemory implements VotesRepository
         return $this->votes_by_user[$this->indexFor($user)];
     }
 
-    public function countForUser(UserEmail $user)
+    public function countByUser(UserEmail $user)
     {
-        return count($this->getForUser($user));
+        return count($this->findByUser($user));
     }
 
     private function indexFor($object)

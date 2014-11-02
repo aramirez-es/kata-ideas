@@ -45,7 +45,7 @@ class Service
     {
         $this->guardIdeaExists($idea_id);
 
-        return $this->votes_repository->countFor($idea_id);
+        return $this->votes_repository->countBy($idea_id);
     }
 
     private function guardIdeaExists(IdeaId $idea_id)
@@ -64,14 +64,14 @@ class Service
 
     private function guardEmployeesVotingTwiceTheSameIdea(IdeaId $idea_id, UserEmail $user)
     {
-        if (in_array($user, $this->votes_repository->getFor($idea_id))) {
+        if (in_array($user, $this->votes_repository->findBy($idea_id))) {
             throw new \DomainException("User $user already voted Idea $idea_id.");
         }
     }
 
     private function guardEmployeesVotingLimitQuote(UserEmail $user)
     {
-        if ($this->votes_repository->countForUser($user) === self::MAX_VOTES_BY_USER) {
+        if ($this->votes_repository->countByUser($user) === self::MAX_VOTES_BY_USER) {
             throw new \DomainException("Employees can't vote more than three ideas.");
         }
     }

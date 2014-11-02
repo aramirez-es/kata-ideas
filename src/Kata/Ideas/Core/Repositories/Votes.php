@@ -8,8 +8,8 @@ use Kata\Ideas\Core\Values\UserEmail;
 interface Votes
 {
     public function add(IdeaId $idea_id, UserEmail $user);
-    public function getFor(IdeaId $idea_id);
-    public function countFor(IdeaId $idea_id);
-    public function getForUser(UserEmail $user);
-    public function countForUser(UserEmail $user);
+    public function findBy(IdeaId $idea_id);
+    public function countBy(IdeaId $idea_id);
+    public function findByUser(UserEmail $user);
+    public function countByUser(UserEmail $user);
 }
