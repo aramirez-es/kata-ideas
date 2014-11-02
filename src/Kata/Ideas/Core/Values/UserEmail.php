@@ -16,6 +16,11 @@ class UserEmail
         return $this->email;
     }
 
+    public function equalsTo(UserEmail $other)
+    {
+        return $this->getEmail() === $other->getEmail();
+    }
+
     function __toString()
     {
         return (string) $this->email;

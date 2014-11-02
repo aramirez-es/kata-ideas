@@ -24,9 +24,8 @@ class Idea {
         return $this->id;
     }
 
-    public function getOwner()
+    public function isOwner(UserEmail $user)
     {
-        return $this->owner;
+        return $this->owner->equalsTo($user);
     }
-
 }

@@ -34,9 +34,7 @@ class Service
     public function vote(IdeaId $idea_id, UserEmail $user)
     {
         $this->guardIdeaExists($idea_id);
-        if ($this->ideas_repository->find($idea_id)->getOwner()->getEmail() === $this->logged_in_user->getEmail()) {
-            throw new \DomainException("Employees can't vote their own ideas.");
-        }
+        $this->guardEmployeesVotingTheirIdeas($idea_id);
 
         $this->votes_repository->add($idea_id, $user);
     }
@@ -52,6 +50,13 @@ class Service
     {
         if (!$this->ideas_repository->find($idea_id)) {
             throw new \InvalidArgumentException("Idea with ID: $idea_id does not exist.");
+        }
+    }
+
+    private function guardEmployeesVotingTheirIdeas(IdeaId $idea_id)
+    {
+        if ($this->ideas_repository->find($idea_id)->isOwner($this->logged_in_user)) {
+            throw new \DomainException("Employees can't vote their own ideas.");
         }
     }
 }
