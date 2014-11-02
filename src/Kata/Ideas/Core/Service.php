@@ -10,6 +10,8 @@ use Kata\Ideas\Core\Values\UserEmail;
 
 class Service
 {
+    const MAX_VOTES_BY_USER = 3;
+
     private $ideas_repository;
     private $votes_repository;
 
@@ -34,6 +36,7 @@ class Service
         $this->guardIdeaExists($idea_id);
         $this->guardEmployeesVotingTheirIdeas($idea_id, $user);
         $this->guardEmployeesVotingTwiceTheSameIdea($idea_id, $user);
+        $this->guardEmployeesVotingLimitQuote($user);
 
         $this->votes_repository->add($idea_id, $user);
     }
@@ -63,6 +66,13 @@ class Service
     {
         if (in_array($user, $this->votes_repository->getFor($idea_id))) {
             throw new \DomainException("User $user already voted Idea $idea_id.");
+        }
+    }
+
+    private function guardEmployeesVotingLimitQuote(UserEmail $user)
+    {
+        if ($this->votes_repository->countForUser($user) === self::MAX_VOTES_BY_USER) {
+            throw new \DomainException("Employees can't vote more than three ideas.");
         }
     }
 }

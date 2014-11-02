@@ -95,4 +95,35 @@ class ServiceSpec extends ObjectBehavior
 
         $this->shouldThrow('\DomainException')->duringVote($idea_id, $user_id);
     }
+
+    function it_should_not_able_to_vote_more_than_three_ideas()
+    {
+        $user_id = new UserEmail("any@user.com");
+        $voter = new UserEmail("voter@user.com");
+
+        $idea1_id = new IdeaId(uniqid());
+        $idea2_id = new IdeaId(uniqid());
+        $idea3_id = new IdeaId(uniqid());
+        $idea4_id = new IdeaId(uniqid());
+
+        $idea1 = new Idea($idea1_id, "any text", $user_id);
+        $idea2 = new Idea($idea2_id, "any text", $user_id);
+        $idea3 = new Idea($idea3_id, "any text", $user_id);
+        $idea4 = new Idea($idea4_id, "any text", $user_id);
+
+        $ideas_repo = new IdeasInMemory();
+        $votes_repo = new VotesInMemory();
+
+        $ideas_repo->add($idea1);
+        $ideas_repo->add($idea2);
+        $ideas_repo->add($idea3);
+        $ideas_repo->add($idea4);
+        $votes_repo->add($idea1_id, $voter);
+        $votes_repo->add($idea2_id, $voter);
+        $votes_repo->add($idea3_id, $voter);
+
+        $this->beConstructedWith($ideas_repo, $votes_repo);
+
+        $this->shouldThrow('\DomainException')->duringVote($idea4_id, $voter);
+    }
 }
