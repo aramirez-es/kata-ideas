@@ -30,4 +30,17 @@ class IdeasSpec extends ObjectBehavior
         $this->vote($idea_id, "any@user.com");
         $this->countVotesFor($idea_id)->shouldReturn(1);
     }
+
+    function it_should_return_zero_when_idea_did_not_get_any_vote()
+    {
+        $idea_id = new IdeaId(uniqid());
+        $idea = new Idea($idea_id, "any text", "any@user.com", time());
+        $this->add($idea);
+        $this->countVotesFor($idea_id)->shouldReturn(0);
+    }
+
+    function it_should_throw_exception_if_idea_does_not_exist()
+    {
+        $this->shouldThrow('\InvalidArgumentException')->duringCountVotesFor(new IdeaId(uniqid()));
+    }
 }

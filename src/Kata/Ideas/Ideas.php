@@ -29,6 +29,10 @@ class Ideas
 
     public function countVotesFor(IdeaId $idea_id)
     {
+        if (!isset($this->votes[spl_object_hash($idea_id)])) {
+            throw new \InvalidArgumentException("Idea with ID: $idea_id does not exist.");
+        }
+
         return count($this->votes[spl_object_hash($idea_id)]);
     }
 }

@@ -15,4 +15,11 @@ class IdeaId {
     {
         return $this->id;
     }
+
+    function __toString()
+    {
+        return (string) $this->id;
+    }
+
+
 }
