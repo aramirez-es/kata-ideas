@@ -24,4 +24,9 @@ class Idea {
         return $this->id;
     }
 
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
 }

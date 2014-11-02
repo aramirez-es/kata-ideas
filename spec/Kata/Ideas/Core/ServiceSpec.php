@@ -16,7 +16,11 @@ class ServiceSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(new IdeasInMemory(), new VotesInMemory());
+        $this->beConstructedWith(
+            new IdeasInMemory(),
+            new VotesInMemory(),
+            new UserEmail("logged@user.com")
+        );
     }
 
     function it_should_suggest_a_new_idea()
@@ -43,7 +47,7 @@ class ServiceSpec extends ObjectBehavior
         $idea = new Idea($idea_id, "any text", $user_id);
 
         $this->suggest($idea);
-        $this->vote($idea_id, "any@user.com");
+        $this->vote($idea_id, $user_id);
         $this->countVotesFor($idea_id)->shouldReturn(1);
     }
 
@@ -61,5 +65,21 @@ class ServiceSpec extends ObjectBehavior
     function it_should_throw_exception_if_idea_does_not_exist()
     {
         $this->shouldThrow('\InvalidArgumentException')->duringCountVotesFor(new IdeaId(uniqid()));
+    }
+
+    function it_should_not_be_able_to_vote_an_unexistent_idea()
+    {
+        $this->shouldThrow('\InvalidArgumentException')->duringVote(new IdeaId(uniqid()), new UserEmail("any@user.com"));
+    }
+
+    function it_should_not_be_able_to_vote_its_own_ideas()
+    {
+        $idea_id = new IdeaId(uniqid());
+        $user_id = new UserEmail("logged@user.com");
+
+        $idea = new Idea($idea_id, "any text", $user_id);
+        $this->suggest($idea);
+
+        $this->shouldThrow('\DomainException')->duringVote($idea_id, $user_id);
     }
 }

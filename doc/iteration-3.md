@@ -4,3 +4,6 @@ Para que un usuario no pueda votar su propia idea, el sistema ha de conocer qui�
 - Se han de cambiar las referencias en Votos e Ideas para que reciban un UserId en vez del email en plano.
 - En este paso me pregunto si tiene sentido un VO representando el Voto. Ahí lo dejo por ahora.
 - En el caso de uso de votación, habrá que hacer la comprobación pertinente.
+
+
+Ahora que tengo el usuario logado en el servicio, me crea un poco de confusión que tanto "suggest" como "vote" reciban desde fuera el usuario propietario de la idea o quien la vota, pero por ahora sigo adelante.

@@ -4,12 +4,13 @@ namespace Kata\Ideas\Infrastructure\Repositories;
 
 use Kata\Ideas\Core\Repositories\Votes as VotesRepository;
 use Kata\Ideas\Core\Values\IdeaId;
+use Kata\Ideas\Core\Values\UserEmail;
 
 class VotesInMemory implements VotesRepository
 {
     private $votes = [];
 
-    public function add(IdeaId $idea_id, $user)
+    public function add(IdeaId $idea_id, UserEmail $user)
     {
         $this->votes[$this->indexFor($idea_id)][] = $user;
     }
