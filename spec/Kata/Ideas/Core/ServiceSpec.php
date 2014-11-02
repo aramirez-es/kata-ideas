@@ -82,4 +82,21 @@ class ServiceSpec extends ObjectBehavior
 
         $this->shouldThrow('\DomainException')->duringVote($idea_id, $user_id);
     }
+
+    function it_should_not_be_able_to_vote_twice_the_same_idea()
+    {
+        $idea_id = new IdeaId(uniqid());
+        $user_id = new UserEmail("any@user.com");
+        $idea = new Idea($idea_id, "any text", $user_id);
+
+        $ideas_repo = new IdeasInMemory();
+        $votes_repo = new VotesInMemory();
+
+        $ideas_repo->add($idea);
+        $votes_repo->add($idea_id, $user_id);
+
+        $this->beConstructedWith($ideas_repo, $votes_repo, new UserEmail("logged@user.com"));
+
+        $this->shouldThrow('\DomainException')->duringVote($idea_id, $user_id);
+    }
 }

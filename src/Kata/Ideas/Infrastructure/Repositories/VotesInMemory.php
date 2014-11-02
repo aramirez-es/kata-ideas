@@ -15,6 +15,14 @@ class VotesInMemory implements VotesRepository
         $this->votes[$this->indexFor($idea_id)][] = $user;
     }
 
+    public function getFor(IdeaId $idea_id)
+    {
+        if (!isset($this->votes[$this->indexFor($idea_id)])) {
+            return [];
+        }
+        return $this->votes[$this->indexFor($idea_id)];
+    }
+
     public function countFor(IdeaId $idea_id)
     {
         if (!isset($this->votes[$this->indexFor($idea_id)])) {

@@ -35,6 +35,7 @@ class Service
     {
         $this->guardIdeaExists($idea_id);
         $this->guardEmployeesVotingTheirIdeas($idea_id);
+        $this->guardEmployeesVotingTwiceTheSameIdea($idea_id, $user);
 
         $this->votes_repository->add($idea_id, $user);
     }
@@ -57,6 +58,17 @@ class Service
     {
         if ($this->ideas_repository->find($idea_id)->isOwner($this->logged_in_user)) {
             throw new \DomainException("Employees can't vote their own ideas.");
+        }
+    }
+
+    /**
+     * @param IdeaId $idea_id
+     * @param UserEmail $user
+     */
+    private function guardEmployeesVotingTwiceTheSameIdea(IdeaId $idea_id, UserEmail $user)
+    {
+        if (in_array($user, $this->votes_repository->getFor($idea_id))) {
+            throw new \DomainException("User $user already voted Idea $idea_id.");
         }
     }
 }
