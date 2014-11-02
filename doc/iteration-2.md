@@ -14,3 +14,5 @@ La forma de almacenamiento no es más que otro array clave-valor, indexado por I
 -- Actúa como repositorio de ideas.
 -- Actúa como repositorio de votos.
 Así que voy a transformar "Ideas" en un servicio, extrayendo la responsabilidad de repositorio a otra clase.
+
+Con esto, doy por finalizada la iteración 2.
