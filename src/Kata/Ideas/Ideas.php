@@ -8,11 +8,15 @@ class Ideas
 
     public function add($idea)
     {
-        $this->ideas[$idea->getId()] = $idea;
+        $this->ideas[spl_object_hash($idea->getId())] = $idea;
     }
 
     public function get($idea_id)
     {
-        return isset($this->ideas[$idea_id]) ? $this->ideas[$idea_id] : null;
+        return
+            isset($this->ideas[spl_object_hash($idea_id)])
+                ? $this->ideas[spl_object_hash($idea_id)]
+                : null
+        ;
     }
 }
